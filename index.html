@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Lengkap</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Efek bunga dan bintang */
+        .effect-flower, .effect-star {
+            position: absolute;
+            pointer-events: none;
+            z-index: 9999;
+            animation: pop-effect 0.7s forwards;
+        }
+        .effect-flower {
+            font-size: 2.2rem;
+            filter: drop-shadow(0 0 6px #ffb34799);
+        }
+        .effect-star {
+            font-size: 2rem;
+            color: #ffe082;
+            filter: drop-shadow(0 0 8px #fff17699);
+        }
+        @keyframes pop-effect {
+            0% { opacity: 1; transform: scale(0.7) rotate(0deg);}
+            70% { opacity: 1; transform: scale(1.2) rotate(20deg);}
+            100% { opacity: 0; transform: scale(1.5) rotate(40deg);}
+        }
+    </style>
+</head>
+<body>
+    <h1>Kalkulator Lengkap</h1>
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="basic">Matematika Dasar</button>
+        <button class="tab-btn" data-tab="calculus">Kalkulus</button>
+        <button class="tab-btn" data-tab="conversion">Konversi Bilangan</button>
+        <button class="tab-btn" data-tab="trigonometry">Trigonometri</button>
+        <button class="tab-btn" data-tab="advanced">Matematika Lanjut</button>
+        <button class="tab-btn" data-tab="algebra">Aljabar</button>
+        <button class="tab-btn" data-tab="congruence">Kekongruenan</button>
+        <button class="tab-btn" data-tab="similarity">Kesebangunan</button>
+    </div>
+
+    <!-- Matematika Dasar -->
+    <div class="tab-content active" id="basic">
+        <div class="calc-row">
+            <input type="number" id="basic-a" placeholder="Angka 1">
+            <select id="basic-op">
+                <option value="+">+</option>
+                <option value="-">-</option>
+                <option value="*">×</option>
+                <option value="/">÷</option>
+                <option value="%">Mod</option>
+                <option value="^">Pangkat</option>
+            </select>
+            <input type="number" id="basic-b" placeholder="Angka 2">
+            <button onclick="calcBasic()">Hitung</button>
+        </div>
+        <div class="result" id="basic-result"></div>
+    </div>
+
+    <!-- Kalkulus -->
+    <div class="tab-content" id="calculus">
+        <div class="calc-row">
+            <label>Turunan (d/dx):</label>
+            <input type="text" id="diff-func" placeholder="Contoh: 3*x^2 + 2*x">
+            <button onclick="calcDerivative()">Hitung Turunan</button>
+        </div>
+        <div class="calc-row">
+            <label>Integral (∫):</label>
+            <input type="text" id="int-func" placeholder="Contoh: x^2">
+            <button onclick="calcIntegral()">Hitung Integral</button>
+        </div>
+        <div class="result" id="calculus-result"></div>
+    </div>
+
+    <!-- Konversi Bilangan -->
+    <div class="tab-content" id="conversion">
+        <div class="calc-row">
+            <input type="text" id="conv-input" placeholder="Masukkan angka">
+            <select id="conv-from">
+                <option value="dec">Desimal</option>
+                <option value="bin">Biner</option>
+                <option value="oct">Oktal</option>
+                <option value="hex">Hexa</option>
+            </select>
+            <span>ke</span>
+            <select id="conv-to">
+                <option value="dec">Desimal</option>
+                <option value="bin">Biner</option>
+                <option value="oct">Oktal</option>
+                <option value="hex">Hexa</option>
+            </select>
+            <button onclick="convertNumber()">Konversi</button>
+        </div>
+        <div class="result" id="conv-result"></div>
+    </div>
+
+    <!-- Trigonometri -->
+    <div class="tab-content" id="trigonometry">
+        <div class="calc-row">
+            <select id="trig-func">
+                <option value="sin">sin</option>
+                <option value="cos">cos</option>
+                <option value="tan">tan</option>
+                <option value="asin">arcsin</option>
+                <option value="acos">arccos</option>
+                <option value="atan">arctan</option>
+            </select>
+            <input type="number" id="trig-input" placeholder="Masukkan nilai/derajat">
+            <select id="trig-mode">
+                <option value="deg">Derajat</option>
+                <option value="rad">Radian</option>
+            </select>
+            <button onclick="calcTrig()">Hitung</button>
+        </div>
+        <div class="result" id="trig-result"></div>
+    </div>
+
+    <!-- Matematika Lanjut -->
+    <div class="tab-content" id="advanced">
+        <div class="calc-row">
+            <label>Logaritma:</label>
+            <input type="number" id="log-input" placeholder="Angka">
+            <select id="log-base">
+                <option value="10">log₁₀</option>
+                <option value="e">ln</option>
+                <option value="2">log₂</option>
+            </select>
+            <button onclick="calcLog()">Hitung</button>
+        </div>
+        <div class="calc-row">
+            <label>Faktorial:</label>
+            <input type="number" id="fact-input" placeholder="Angka">
+            <button onclick="calcFact()">Hitung Faktorial</button>
+        </div>
+        <div class="result" id="adv-result"></div>
+    </div>
+
+    <!-- Aljabar -->
+    <div class="tab-content" id="algebra">
+        <div class="calc-row">
+            <label>Selesaikan Persamaan Linear:</label>
+            <input type="text" id="algebra-eq" placeholder="Contoh: 2*x+3=7">
+            <button onclick="solveAlgebra()">Hitung x</button>
+        </div>
+        <div class="result" id="algebra-result"></div>
+    </div>
+
+    <!-- Kekongruenan -->
+    <div class="tab-content" id="congruence">
+        <div class="calc-row">
+            <label>Cek Kekongruenan (modulo):</label>
+            <input type="number" id="cong-a" placeholder="a">
+            <input type="number" id="cong-b" placeholder="b">
+            <input type="number" id="cong-m" placeholder="mod m">
+            <button onclick="cekKongruen()">Cek</button>
+        </div>
+        <div class="result" id="cong-result"></div>
+    </div>
+
+    <!-- Kesebangunan -->
+    <div class="tab-content" id="similarity">
+        <div class="calc-row">
+            <label>Bandingkan Dua Segitiga:</label>
+        </div>
+        <div class="calc-row">
+            <span>Segitiga 1:</span>
+            <input type="number" id="sim-a1" placeholder="a₁">
+            <input type="number" id="sim-b1" placeholder="b₁">
+            <input type="number" id="sim-c1" placeholder="c₁">
+        </div>
+        <div class="calc-row">
+            <span>Segitiga 2:</span>
+            <input type="number" id="sim-a2" placeholder="a₂">
+            <input type="number" id="sim-b2" placeholder="b₂">
+            <input type="number" id="sim-c2" placeholder="c₂">
+        </div>
+        <div class="calc-row">
+            <button onclick="cekSebangun()">Cek Kesebangunan</button>
+        </div>
+        <div class="result" id="sim-result"></div>
+    </div>
+
+    <script>
+        // Tab Navigation
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.onclick = function() {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            }
+        });
+
+        // Matematika Dasar
+        function calcBasic() {
+            const a = parseFloat(document.getElementById('basic-a').value);
+            const b = parseFloat(document.getElementById('basic-b').value);
+            const op = document.getElementById('basic-op').value;
+            let res = '';
+            if (isNaN(a) || isNaN(b)) {
+                res = 'Input tidak valid';
+            } else {
+                switch(op) {
+                    case '+': res = a + b; break;
+                    case '-': res = a - b; break;
+                    case '*': res = a * b; break;
+                    case '/': res = b !== 0 ? a / b : 'Tak terdefinisi'; break;
+                    case '%': res = b !== 0 ? a % b : 'Tak terdefinisi'; break;
+                    case '^': res = Math.pow(a, b); break;
+                }
+            }
+            document.getElementById('basic-result').innerText = res;
+        }
+
+        // Kalkulus (turunan & integral sederhana, hanya polinomial)
+        function parsePoly(str) {
+            // Contoh: 3*x^2 + 2*x + 1
+            let terms = str.replace(/-/g, '+-').split('+').map(s => s.trim()).filter(Boolean);
+            return terms.map(term => {
+                let match = term.match(/^([+-]?\d*\.?\d*)\*?x(?:\^([+-]?\d+))?$/);
+                if (match) {
+                    let coef = match[1] === '' || match[1] === '+' ? 1 : (match[1] === '-' ? -1 : parseFloat(match[1]));
+                    let exp = match[2] ? parseInt(match[2]) : 1;
+                    return {coef, exp};
+                } else {
+                    return {coef: parseFloat(term), exp: 0};
+                }
+            });
+        }
+        function polyToString(terms) {
+            return terms
+                .filter(t => t.coef !== 0)
+                .map(t => {
+                    let c = t.coef === 1 && t.exp !== 0 ? '' : (t.coef === -1 && t.exp !== 0 ? '-' : t.coef);
+                    let x = t.exp === 0 ? '' : (t.exp === 1 ? 'x' : `x^${t.exp}`);
+                    return `${c}${x}`;
+                })
+                .join(' + ')
+                .replace(/\+\s\-/g, '- ');
+        }
+        function calcDerivative() {
+            const str = document.getElementById('diff-func').value;
+            try {
+                let poly = parsePoly(str);
+                let deriv = poly.map(t => ({coef: t.coef * t.exp, exp: t.exp - 1})).filter(t => t.exp >= 0);
+                document.getElementById('calculus-result').innerText = 'Turunan: ' + polyToString(deriv);
+            } catch {
+                document.getElementById('calculus-result').innerText = 'Format fungsi tidak dikenali';
+            }
+        }
+        function calcIntegral() {
+            const str = document.getElementById('int-func').value;
+            try {
+                let poly = parsePoly(str);
+                let integ = poly.map(t => ({coef: t.coef / (t.exp + 1), exp: t.exp + 1}));
+                document.getElementById('calculus-result').innerText = 'Integral: ' + polyToString(integ) + ' + C';
+            } catch {
+                document.getElementById('calculus-result').innerText = 'Format fungsi tidak dikenali';
+            }
+        }
+
+        // Konversi Bilangan
+        function convertNumber() {
+            let val = document.getElementById('conv-input').value.trim();
+            let from = document.getElementById('conv-from').value;
+            let to = document.getElementById('conv-to').value;
+            let num;
+            try {
+                if (from === 'dec') num = parseInt(val, 10);
+                else if (from === 'bin') num = parseInt(val, 2);
+                else if (from === 'oct') num = parseInt(val, 8);
+                else if (from === 'hex') num = parseInt(val, 16);
+                if (isNaN(num)) throw 'Invalid';
+                let res;
+                if (to === 'dec') res = num.toString(10);
+                else if (to === 'bin') res = num.toString(2);
+                else if (to === 'oct') res = num.toString(8);
+                else if (to === 'hex') res = num.toString(16).toUpperCase();
+                document.getElementById('conv-result').innerText = res;
+            } catch {
+                document.getElementById('conv-result').innerText = 'Input tidak valid';
+            }
+        }
+
+        // Trigonometri
+        function calcTrig() {
+            let func = document.getElementById('trig-func').value;
+            let val = parseFloat(document.getElementById('trig-input').value);
+            let mode = document.getElementById('trig-mode').value;
+            if (isNaN(val)) {
+                document.getElementById('trig-result').innerText = 'Input tidak valid';
+                return;
+            }
+            let rad = mode === 'deg' ? val * Math.PI / 180 : val;
+            let res;
+            switch(func) {
+                case 'sin': res = Math.sin(rad); break;
+                case 'cos': res = Math.cos(rad); break;
+                case 'tan': res = Math.tan(rad); break;
+                case 'asin': res = mode === 'deg' ? Math.asin(val) * 180 / Math.PI : Math.asin(val); break;
+                case 'acos': res = mode === 'deg' ? Math.acos(val) * 180 / Math.PI : Math.acos(val); break;
+                case 'atan': res = mode === 'deg' ? Math.atan(val) * 180 / Math.PI : Math.atan(val); break;
+            }
+            document.getElementById('trig-result').innerText = res;
+        }
+
+        // Matematika Lanjut
+        function calcLog() {
+            let val = parseFloat(document.getElementById('log-input').value);
+            let base = document.getElementById('log-base').value;
+            let res;
+            if (isNaN(val) || val <= 0) {
+                res = 'Input tidak valid';
+            } else {
+                if (base === '10') res = Math.log10(val);
+                else if (base === 'e') res = Math.log(val);
+                else if (base === '2') res = Math.log2(val);
+            }
+            document.getElementById('adv-result').innerText = res;
+        }
+        function calcFact() {
+            let n = parseInt(document.getElementById('fact-input').value);
+            if (isNaN(n) || n < 0) {
+                document.getElementById('adv-result').innerText = 'Input tidak valid';
+                return;
+            }
+            let res = 1;
+            for (let i = 2; i <= n; i++) res *= i;
+            document.getElementById('adv-result').innerText = res;
+        }
+
+        // Aljabar: Sederhana untuk ax+b=c
+        function solveAlgebra() {
+            const eq = document.getElementById('algebra-eq').value.replace(/\s/g, '');
+            // Match bentuk ax+b=c atau ax-b=c
+            const match = eq.match(/^([+-]?\d*\.?\d*)\*?x([+-]\d+)?=([+-]?\d+(\.\d+)?)$/i);
+            let res = '';
+            if (match) {
+                let a = match[1] === '' || match[1] === '+' ? 1 : (match[1] === '-' ? -1 : parseFloat(match[1]));
+                let b = match[2] ? parseFloat(match[2]) : 0;
+                let c = parseFloat(match[3]);
+                if (a === 0) {
+                    res = b === c ? 'Tak hingga solusi' : 'Tidak ada solusi';
+                } else {
+                    res = 'x = ' + ((c - b) / a);
+                }
+            } else {
+                res = 'Format persamaan tidak dikenali. Contoh: 2*x+3=7';
+            }
+            document.getElementById('algebra-result').innerText = res;
+        }
+
+        // Kekongruenan: a ≡ b (mod m)
+        function cekKongruen() {
+            const a = parseInt(document.getElementById('cong-a').value);
+            const b = parseInt(document.getElementById('cong-b').value);
+            const m = parseInt(document.getElementById('cong-m').value);
+            let res = '';
+            if (isNaN(a) || isNaN(b) || isNaN(m) || m === 0) {
+                res = 'Input tidak valid';
+            } else {
+                res = (a % m === b % m)
+                    ? `${a} ≡ ${b} (mod ${m}) → Kongruen`
+                    : `${a} ≠ ${b} (mod ${m}) → Tidak kongruen`;
+            }
+            document.getElementById('cong-result').innerText = res;
+        }
+
+        // Kesebangunan segitiga: perbandingan sisi sama
+        function cekSebangun() {
+            const a1 = parseFloat(document.getElementById('sim-a1').value);
+            const b1 = parseFloat(document.getElementById('sim-b1').value);
+            const c1 = parseFloat(document.getElementById('sim-c1').value);
+            const a2 = parseFloat(document.getElementById('sim-a2').value);
+            const b2 = parseFloat(document.getElementById('sim-b2').value);
+            const c2 = parseFloat(document.getElementById('sim-c2').value);
+            let res = '';
+            if ([a1, b1, c1, a2, b2, c2].some(isNaN) || a1 <= 0 || b1 <= 0 || c1 <= 0 || a2 <= 0 || b2 <= 0 || c2 <= 0) {
+                res = 'Input tidak valid';
+            } else {
+                const r1 = a1 / a2, r2 = b1 / b2, r3 = c1 / c2;
+                const eps = 1e-6;
+                if (Math.abs(r1 - r2) < eps && Math.abs(r2 - r3) < eps) {
+                    res = 'Segitiga sebangun (semua sisi sebanding)';
+                } else {
+                    res = 'Segitiga tidak sebangun';
+                }
+            }
+            document.getElementById('sim-result').innerText = res;
+        }
+
+        // Efek bunga pada klik tab matematika
+        function spawnFlower(e) {
+            const flowers = ['🌸','🌼','🌻','💮','🌺','🌷'];
+            const el = document.createElement('span');
+            el.className = 'effect-flower';
+            el.textContent = flowers[Math.floor(Math.random()*flowers.length)];
+            document.body.appendChild(el);
+            const x = e.clientX, y = e.clientY;
+            el.style.left = (x - 20) + 'px';
+            el.style.top = (y - 20) + 'px';
+            setTimeout(() => el.remove(), 700);
+        }
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', spawnFlower);
+        });
+
+        // Efek bintang pada klik tombol hasil
+        function spawnStar(e) {
+            const el = document.createElement('span');
+            el.className = 'effect-star';
+            el.textContent = '⭐';
+            document.body.appendChild(el);
+            const x = e.clientX, y = e.clientY;
+            el.style.left = (x - 14) + 'px';
+            el.style.top = (y - 14) + 'px';
+            setTimeout(() => el.remove(), 700);
+        }
+        // Tombol hasil: semua button di dalam .calc-row yang bukan tab-btn
+        document.querySelectorAll('.calc-row button').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                spawnStar(e);
+            });
+        });
+    </script>
+    <div class="footer-note">
+        Jangan terus bergantung pada kalkulator, karena ini di ciptakan untuk membantu, bukan pembantu.
+    </div>
+    <div class="footer-credit">
+        create by Ryzellx
+    </div>
+    <a href="https://saweria.co/Scypluz" target="_blank" class="support-btn">Support saya</a>
+    <div class="support-contact">Contact me on discord: turiable</div>
+</body>
+</html>
